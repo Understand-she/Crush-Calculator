@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://understand-she.github.io/Crush-Calculator/sitemap.xml
