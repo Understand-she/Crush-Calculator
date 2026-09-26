@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crush Calculator: Secret Crush & Love Compatibility Test</title>
+<meta name="description" content="Try the free Crush Calculator by name. Enter your name and your crush's name to get a fun crush compatibility percentage in seconds — no signup needed.">
+<link rel="canonical" href="{{GITHUB_TOOL_URL}}">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Crush Calculator: Secret Crush & Love Compatibility Test">
+<meta property="og:description" content="Enter two names and get a fun crush compatibility percentage instantly. A free, private, name-based crush calculator from UnderstandShe.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{GITHUB_TOOL_URL}}">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Crush Calculator: Secret Crush & Love Compatibility Test">
+<meta name="twitter:description" content="Enter two names and get a fun crush compatibility percentage instantly. Free and private.">
+
+<style>
+  :root{
+    --bg: #fbf5f3;
+    --panel: #ffffff;
+    --ink: #3a2e2c;
+    --ink-soft: #6b5a56;
+    --rose: #a3355a;
+    --rose-deep: #7c2745;
+    --gold: #c98a3e;
+    --line: #ecdfda;
+    --focus: #2b4c9b;
+    --radius-lg: 22px;
+    --radius-sm: 10px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, .display {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 600;
+    color: var(--rose-deep);
+    line-height: 1.15;
+  }
+
+  a { color: var(--rose); }
+  a:hover { color: var(--rose-deep); }
+
+  :focus-visible{
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+  }
+
+  .wrap{
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  header.site{
+    padding: 28px 0 6px;
+  }
+
+  .brand-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .brand{
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.2px;
+  }
+
+  .brand strong{ color: var(--rose-deep); }
+
+  nav.quicklinks{
+    font-size: 0.85rem;
+  }
+  nav.quicklinks a{
+    margin-left: 14px;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+  nav.quicklinks a:hover{ border-bottom-color: var(--rose); }
+
+  .hero{
+    padding: 18px 0 8px;
+    text-align: center;
+  }
+
+  h1{
+    font-size: clamp(2rem, 5vw, 2.9rem);
+    margin: 6px 0 4px;
+  }
+
+  .subhead{
+    font-size: clamp(1.05rem, 2.4vw, 1.25rem);
+    color: var(--ink-soft);
+    margin: 0 0 4px;
+  }
+
+  .intro-note{
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    max-width: 60ch;
+    margin: 10px auto 0;
+  }
+
+  /* Calculator card */
+  .calc-card{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 28px 26px 24px;
+    margin: 26px 0 18px;
+    box-shadow: 0 18px 40px -28px rgba(124, 39, 69, 0.35);
+  }
+
+  .field{
+    margin-bottom: 16px;
+  }
+
+  label{
+    display: block;
+    font-size: 0.92rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+
+  input[type="text"]{
+    width: 100%;
+    padding: 13px 14px;
+    font-size: 1rem;
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: #fffdfc;
+    color: var(--ink);
+    font-family: inherit;
+  }
+
+  input[type="text"]:focus{
+    border-color: var(--rose);
+  }
+
+  .btn-row{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  button{
+    font-family: inherit;
+    font-size: 0.98rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary{
+    background: var(--rose-deep);
+    color: #fff;
+    flex: 1 1 200px;
+  }
+  .btn-primary:hover{ background: var(--rose); }
+
+  .btn-secondary{
+    background: transparent;
+    color: var(--rose-deep);
+    border: 1.5px solid var(--line);
+    flex: 0 1 auto;
+  }
+  .btn-secondary:hover{ border-color: var(--rose); }
+
+  .result{
+    margin-top: 22px;
+    padding: 20px;
+    border-radius: var(--radius-sm);
+    background: #fbeef1;
+    border: 1px solid #f2d7de;
+    display: none;
+  }
+
+  .result.visible{ display: block; }
+
+  .result-number{
+    font-family: Georgia, serif;
+    font-size: 3rem;
+    color: var(--rose-deep);
+    margin: 0;
+    line-height: 1;
+  }
+
+  .result-category{
+    font-weight: 700;
+    margin: 6px 0 10px;
+    color: var(--ink);
+  }
+
+  .result-explain{
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    margin: 0 0 10px;
+  }
+
+  .result-disclaimer{
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    border-top: 1px dashed #e3bcc7;
+    padding-top: 10px;
+    margin-top: 10px;
+  }
+
+  .result-actions{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+
+  .result-actions button{
+    background: #fff;
+    border: 1.5px solid var(--line);
+    color: var(--rose-deep);
+    font-size: 0.9rem;
+    padding: 9px 14px;
+  }
+
+  .copy-feedback{
+    font-size: 0.85rem;
+    color: var(--rose-deep);
+    margin-left: 4px;
+  }
+
+  .privacy-note{
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    margin-top: 14px;
+  }
+
+  .error-msg{
+    color: #9c2a2a;
+    font-size: 0.88rem;
+    margin-top: 8px;
+    display: none;
+  }
+  .error-msg.visible{ display: block; }
+
+  /* Routing box */
+  .route-box{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 22px 24px;
+    margin: 30px 0;
+  }
+
+  .route-box h2{ font-size: 1.3rem; margin-top: 0; }
+
+  .route-list{
+    list-style: none;
+    margin: 14px 0 0;
+    padding: 0;
+  }
+
+  .route-list li{
+    padding: 10px 0;
+    border-top: 1px solid var(--line);
+  }
+  .route-list li:first-child{ border-top: none; }
+
+  .route-list strong{ display: block; margin-bottom: 3px; }
+
+  /* Article */
+  article.seo{
+    margin-top: 8px;
+  }
+
+  article.seo h2{
+    font-size: 1.5rem;
+    margin-top: 2.2em;
+  }
+
+  article.seo p{
+    max-width: 68ch;
+  }
+
+  article.seo p, article.seo li{
+    color: #4a3e3b;
+  }
+
+  /* FAQ */
+  .faq-item{
+    border-top: 1px solid var(--line);
+    padding: 16px 0;
+  }
+  .faq-item:last-child{ border-bottom: 1px solid var(--line); }
+
+  .faq-item h3{
+    font-size: 1.05rem;
+    margin: 0 0 6px;
+    color: var(--ink);
+    font-family: inherit;
+    font-weight: 700;
+  }
+
+  .faq-item p{ margin: 0; color: var(--ink-soft); }
+
+  /* Related searches */
+  .related{
+    background: #f5e9e4;
+    border-radius: var(--radius-lg);
+    padding: 22px 24px;
+    margin: 30px 0;
+  }
+  .related h2{ font-size: 1.25rem; margin-top: 0; }
+  .chip-list{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 0;
+    list-style: none;
+  }
+  .chip-list li{
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  footer.site{
+    margin: 50px 0 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg: #211a19;
+      --panel: #2c2321;
+      --ink: #f1e6e2;
+      --ink-soft: #cbb9b3;
+      --line: #4a3835;
+      --rose: #e08aa8;
+      --rose-deep: #f0a8c0;
+    }
+    .result{ background: #3a2530; border-color: #55303e; }
+    .related{ background: #33241f; }
+    .chip-list li{ background: #2c2321; }
+    input[type="text"]{ background: #241c1b; color: var(--ink); }
+    .result-actions button{ background: #241c1b; }
+  }
+
+  @media (max-width: 480px){
+    .calc-card{ padding: 22px 18px; }
+    .btn-row{ flex-direction: column; }
+    .btn-primary{ flex: 1 1 auto; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap brand-row">
+    <div class="brand">An <strong>UnderstandShe</strong> relationship tool</div>
+    <nav class="quicklinks" aria-label="Page sections">
+      <a href="#calculator">Calculator</a>
+      <a href="#article">Guide</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <h1>Crush Calculator</h1>
+    <p class="subhead">Crush Calculator by Name: Check Your Crush Compatibility</p>
+    <p class="intro-note">Type your name and your crush's name below to get a fun, name-based crush compatibility percentage. This is an entertainment tool — it reads two names, not two people's actual feelings.</p>
+  </section>
+
+  <section class="calc-card" id="calculator" aria-labelledby="calc-heading">
+    <h2 id="calc-heading" style="margin-top:0; font-size:1.3rem;">Calculate Your Crush Compatibility</h2>
+
+    <form id="crushForm" novalidate>
+      <div class="field">
+        <label for="yourName">Your Name</label>
+        <input type="text" id="yourName" name="yourName" autocomplete="off" maxlength="60" placeholder="e.g. Alex">
+      </div>
+      <div class="field">
+        <label for="crushName">Your Crush's Name</label>
+        <input type="text" id="crushName" name="crushName" autocomplete="off" maxlength="60" placeholder="e.g. Jordan">
+      </div>
+
+      <p class="error-msg" id="errorMsg" role="alert">Please enter both names using letters, then try again.</p>
+
+      <div class="btn-row">
+        <button type="submit" class="btn-primary" id="calcBtn">Calculate Crush Compatibility</button>
+        <button type="button" class="btn-secondary" id="resetBtn">Reset</button>
+      </div>
+    </form>
+
+    <div class="result" id="resultBox" aria-live="polite">
+      <p class="result-number" id="resultPercent">0%</p>
+      <p class="result-category" id="resultCategory"></p>
+      <p class="result-explain" id="resultExplain"></p>
+      <p class="result-disclaimer">This percentage is generated by this calculator's own name-based formula. It does not measure real feelings, chemistry, or compatibility, and it cannot tell you whether your crush actually likes you.</p>
+
+      <div class="result-actions">
+        <button type="button" id="copyBtn">Copy Result</button>
+        <button type="button" id="shareBtn">Share Result</button>
+        <button type="button" id="tryAgainBtn">Try Again</button>
+        <span class="copy-feedback" id="copyFeedback" role="status"></span>
+      </div>
+    </div>
+
+    <p class="privacy-note">Your names are processed in your browser for the calculation and are not sent to a server by this calculator.</p>
+  </section>
+
+  <section class="route-box" aria-labelledby="route-heading">
+    <h2 id="route-heading">Looking for a Different Love Calculator?</h2>
+    <p>The crush calculator above is built for one specific job: turning two names into a fun compatibility percentage. If your question is really about something else, one of these tools will be more useful:</p>
+    <ul class="route-list">
+      <li>
+        <strong>Wondering whether he actually likes you back, based on how he acts?</strong>
+        A name percentage can't read behavior. Try the <a href="{{DOES_HE_LIKE_ME_BACK_URL}}">Does He Like Me Back Test</a> instead, which looks at real signals rather than letters in a name.
+      </li>
+      <li>
+        <strong>Trying to work out how long you've been together?</strong>
+        That's a date-math question, not a name question. Use the <a href="{{DATING_CALCULATOR_URL}}">Dating Calculator</a> to get an exact duration.
+      </li>
+      <li>
+        <strong>Have a broader relationship question rather than two names to compare?</strong>
+        Take the <a href="{{RELATIONSHIP_PSYCHOLOGY_QUIZ_URL}}">relationship psychology quiz</a> for a more personal look at your situation.
+      </li>
+    </ul>
+  </section>
+
+  <article class="seo" id="article">
+
+    <h2>What Is a Crush Calculator?</h2>
+    <p>A crush calculator is a lightweight, name-based tool that takes two names and turns them into a single compatibility percentage. It doesn't ask about your personality, your history, or how the other person acts around you — it only looks at the letters in the two names you type in. That's what makes it fast: no quiz, no long form, just two name fields and an instant result.</p>
+    <p>People search for a crush calculator when they want something quick and playful to do with a name they're already thinking about. It's closer to a fortune-telling game than a psychological test, and it works best when you treat it that way — as a fun starting point, not a verdict.</p>
+
+    <h2>How Does a Crush Calculator Work?</h2>
+    <p>Behind the scenes, this calculator cleans up both names — removing extra spaces, punctuation, and capitalization differences — and then combines the two cleaned names into one string. That combined string is run through a simple mathematical formula that converts letters into numbers and reduces them down to a percentage between 1% and 100%.</p>
+    <p>Two details matter here. First, the same pair of names will always produce the same percentage, no matter how many times you calculate it. Second, it doesn't matter which name you type first — "Alex and Jordan" and "Jordan and Alex" give you the same result, because the formula treats the pair as a set rather than an ordered sequence. There's no randomness involved, so nothing here is left to chance in the way a dice roll would be.</p>
+
+    <h2>How to Use the Crush Calculator</h2>
+    <p>Using the tool takes a few seconds:</p>
+    <ol>
+      <li>Type your name into the first field.</li>
+      <li>Type your crush's name into the second field.</li>
+      <li>Select "Calculate Crush Compatibility."</li>
+      <li>Read your percentage, its category, and the short explanation underneath.</li>
+      <li>Select "Try Again" or "Reset" to test another pair of names.</li>
+    </ol>
+    <p>You can copy your result to share with a friend, or use the share button if your browser supports it. Nothing you type is saved or sent anywhere — the whole calculation happens on your device.</p>
+
+    <h2>What Does Your Crush Compatibility Percentage Mean?</h2>
+    <p>Your percentage is simply the output of this calculator's formula applied to the two names you entered. A higher number means the combined letters produced a stronger match under this specific method — it does not mean two people are more suited to each other in real life, and it isn't measuring attraction, personality fit, or shared values. Think of it the way you'd think of a fortune cookie: enjoyable, sometimes eerily fitting, but not evidence of anything.</p>
+
+    <h2>Crush Calculator by Name vs Love Calculator</h2>
+    <p>"Crush calculator" and "love calculator" often lead people to the same style of tool, but the intent behind each search is slightly different. Someone searching for a crush calculator by name is usually curious about one specific person they haven't told anyone about yet — the tone is playful and a little private. Someone searching for a love calculator is more often comparing an existing couple, checking a name for fun, or looking for a laugh with friends. Both searches are typically answered by the same type of name-based formula, just framed differently depending on the mood behind the search.</p>
+
+    <h2>What Is a Secret Crush Calculator?</h2>
+    <p>A "secret crush calculator" is the same idea as a crush calculator — a name-based compatibility tool — but the word "secret" reflects why people are searching: they haven't told the other person about their feelings yet. It's worth being clear about one thing: no calculator, including this one, can secretly find out what someone else is thinking or feeling. It only works with the two names you provide, which is why the result stays private to you unless you choose to share it.</p>
+
+    <h2>Can a Crush Calculator Tell If My Crush Likes Me?</h2>
+    <p>This is one of the most common questions people bring to a tool like this, and the honest answer is no. A name-based calculator has no way to observe how someone actually behaves — whether they text first, make eye contact, remember small details, or make time for you. Those are the real signals that tend to indicate interest, and no formula built from letters can substitute for them.</p>
+    <p>If this is genuinely the question on your mind, a behavior-based tool will get you closer to a useful answer. The <a href="{{DOES_HE_LIKE_ME_BACK_URL}}">Does He Like Me Back Test</a> is built around the kind of everyday actions that actually say something about interest, rather than a name pairing.</p>
+
+    <h2>Can a Love Calculator Tell If Two People Are Compatible?</h2>
+    <p>Name-based love calculators are entertainment tools, and that's true across the whole category — not just this one. Real compatibility between two people involves communication style, values, timing, effort, and countless factors that simply aren't present in a name. Use a love calculator for a smile or a shared laugh with a friend, not as a verdict on whether a relationship is worth pursuing.</p>
+
+    <h2>What Does a 100% Love Calculator Result Mean?</h2>
+    <p>If you land on 100%, it means the two names you entered happened to produce the maximum score this particular formula can output — nothing more. It is not proof of true love, a confirmed soulmate, a guaranteed future together, or mutual attraction. Two completely unrelated names, or even your own name paired with a stranger's, can land on 100% purely because of how the letters combine. Treat a perfect score the same way you'd treat any other result: as a fun outcome, not a fact.</p>
+
+    <h2>Crush Calculator vs Love Calculator by Name</h2>
+    <p>Searches like "love calculator by name," "love test by name," "name compatibility calculator," and "love percentage calculator" all describe essentially the same mechanic used here: two names go in, one percentage comes out. The differences are mostly in wording and framing rather than function. If you've landed here searching for any of those terms, this calculator will give you what you're looking for — just enter the two names you have in mind.</p>
+
+    <h2>What About Love Calculator by Date of Birth?</h2>
+    <p>Some tools calculate compatibility using birth dates instead of names, often blending in numerology or astrology-style logic. That is a genuinely different method from what this page does. This calculator only ever reads the letters in the two names you type — it does not ask for or use a date of birth, and it doesn't perform any astrology or numerology calculations. If you're specifically looking for a birth-date-based tool, that would need to be a separate calculator built around a different method, not this one.</p>
+
+    <h2>What If My Crush Watches My Stories but Does Not Reply?</h2>
+    <p>This is a common, very specific worry, and it's a behavior question rather than a name question, so a crush percentage won't shed any light on it. Story views without replies can mean a lot of different things — busy schedules, uncertainty about what to say, or simply different texting habits — and the meaning usually depends on context this calculator has no access to. For a fuller breakdown of what this pattern can indicate, see <a href="{{STORIES_NO_REPLY_URL}}">He Watches Your Stories but Won't Reply</a>.</p>
+
+    <h2>What If I Want to Know Whether He Actually Likes Me?</h2>
+    <p>If your real question is about someone's actual feelings, the most useful information will always come from what they do, not from what your names spell out together. Consistency, effort, and how someone treats you day to day tend to say far more than any calculator can. The <a href="{{DOES_HE_LIKE_ME_BACK_URL}}">Does He Like Me Back Test</a> is designed around exactly those behavioral patterns, and it's a better next step than refreshing a name-based result.</p>
+
+    <h2>When a Crush Becomes a Real Relationship</h2>
+    <p>A crush calculator result is a snapshot of curiosity — a fun way to think about someone you're interested in before anything has really started. An actual relationship is built afterward, through communication, consistency, and shared effort, and it's measured by very different things than a percentage. If you're curious how long you and a partner have actually been together, the <a href="{{DATING_CALCULATOR_URL}}">Dating Calculator</a> handles that math precisely. And if you're already in an established relationship and want to think about what keeps it strong, <a href="{{HEALTHY_RELATIONSHIP_URL}}">Healthy Relationship Between Husband and Wife</a> covers the habits that tend to matter most long-term.</p>
+
+    <h2>Final Thoughts on Crush Calculators</h2>
+    <p>Used the right way, a crush calculator is a small, private bit of fun — a way to think about a name that's already on your mind, with an instant result and no pressure attached. It isn't a substitute for a real conversation, and it can't tell you what someone else is feeling. If you want a laugh or a lighthearted nudge, this tool delivers exactly that. If you want a real answer about someone's feelings or your relationship, the tools linked throughout this page are built for that job instead.</p>
+
+  </article>
+
+  <section class="related">
+    <h2>Related Love Calculator Searches</h2>
+    <p>People who search for a crush calculator often also look for: a secret crush calculator, a love calculator, a love calculator by name, a love compatibility calculator, a love percentage calculator, a name compatibility calculator, a true love calculator, a love match calculator, "does my crush like me," a crush love test, and a love calculator by date of birth. This page covers the name-based version of these searches; if your question is really about behavior or dates rather than names, use the routing section above to find the right tool.</p>
+    <ul class="chip-list">
+      <li>Crush Calculator</li>
+      <li>Secret Crush Calculator</li>
+      <li>Love Calculator by Name</li>
+      <li>Love Compatibility Calculator</li>
+      <li>Name Compatibility Calculator</li>
+      <li>True Love Calculator</li>
+      <li>Love Match Calculator</li>
+      <li>Does My Crush Like Me</li>
+    </ul>
+  </section>
+
+  <section id="faq" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>What is a crush calculator?</h3>
+      <p>It's a free, name-based tool that turns two names into a fun compatibility percentage using a fixed formula. It's meant for entertainment, not as a real measure of feelings.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How does a crush calculator by name work?</h3>
+      <p>It cleans up both names, combines them, and runs the result through a formula that always produces the same percentage for the same pair of names, regardless of which name you enter first.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Is a crush calculator accurate?</h3>
+      <p>It's accurate in the sense that it's consistent — the same names always give the same result. It isn't "accurate" as a measure of real compatibility or attraction, since it has no information about either person.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can a crush calculator tell if my crush likes me?</h3>
+      <p>No. It only reads two names, not behavior. For that question, a behavior-based tool like the <a href="{{DOES_HE_LIKE_ME_BACK_URL}}">Does He Like Me Back Test</a> is a better fit.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What does a 100% love calculator result mean?</h3>
+      <p>It means your names hit the maximum score this formula can produce. It doesn't confirm true love, a soulmate, or a guaranteed relationship.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What is a secret crush calculator?</h3>
+      <p>It's the same type of name-based tool as a crush calculator; "secret" just refers to the fact that you usually haven't told the other person about your feelings yet.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Is a love calculator by name real?</h3>
+      <p>It's a real, working formula that genuinely produces consistent results — but it's a novelty calculation, not a scientifically validated measure of love.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can I use a crush calculator with two names?</h3>
+      <p>Yes — that's exactly how this tool is designed to be used. Enter your name and your crush's name, and it will calculate a result from that pair.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What is the difference between a crush calculator and a love calculator?</h3>
+      <p>They typically use the same name-based mechanic. "Crush calculator" tends to describe checking on one person you haven't told about your feelings; "love calculator" is often used more broadly, including for existing couples.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can a love calculator predict a relationship?</h3>
+      <p>No. It can't predict how a relationship will unfold, since real relationships depend on communication, effort, and circumstances a name can't capture.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can a crush calculator tell who your soulmate is?</h3>
+      <p>No. It has no way to identify a soulmate — it simply returns a percentage based on the two names you enter, for fun.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can I calculate love compatibility by date of birth?</h3>
+      <p>Not with this tool — it only uses names, not birth dates. A date-of-birth calculator would use a different method, such as numerology, and would need to be a separate tool.</p>
+    </div>
+
+  </section>
+
+</main>
+
+<footer class="site">
+  <p>An UnderstandShe relationship tool · For entertainment purposes only.</p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  function normalizeName(name){
+    return name
+      .toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z]/g, "");
+  }
+
+  // Deterministic, order-independent hash (djb2-style) producing 1-100
+  function crushScore(nameA, nameB){
+    var a = normalizeName(nameA);
+    var b = normalizeName(nameB);
+
+    // Combine both names' characters and sort them so the order the
+    // names were entered in never changes the result.
+    var combined = (a + b).split("").sort().join("");
+
+    var hash = 5381;
+    for (var i = 0; i < combined.length; i++){
+      hash = ((hash * 33) ^ combined.charCodeAt(i)) >>> 0;
+    }
+
+    // Fold in name lengths so very short combined strings still vary.
+    hash = (hash ^ (a.length * 131) ^ (b.length * 197)) >>> 0;
+
+    var score = (hash % 100) + 1; // 1 - 100
+    return score;
+  }
+
+  function categoryFor(score){
+    if (score >= 90) return { label: "Very High Crush Match", text: "This calculator's formula produced its highest tier for this pair of names." };
+    if (score >= 75) return { label: "Strong Crush Match", text: "This pair of names scored well under this calculator's formula." };
+    if (score >= 60) return { label: "Promising Match", text: "This pair of names landed in a solid mid-to-upper range on this calculator's formula." };
+    if (score >= 40) return { label: "Mixed Match", text: "This pair of names produced a middling score under this calculator's formula." };
+    return { label: "Low Name Match", text: "This pair of names scored on the lower end of this calculator's formula." };
+  }
+
+  var form = document.getElementById("crushForm");
+  var yourNameInput = document.getElementById("yourName");
+  var crushNameInput = document.getElementById("crushName");
+  var errorMsg = document.getElementById("errorMsg");
+  var resultBox = document.getElementById("resultBox");
+  var resultPercent = document.getElementById("resultPercent");
+  var resultCategory = document.getElementById("resultCategory");
+  var resultExplain = document.getElementById("resultExplain");
+  var resetBtn = document.getElementById("resetBtn");
+  var tryAgainBtn = document.getElementById("tryAgainBtn");
+  var copyBtn = document.getElementById("copyBtn");
+  var shareBtn = document.getElementById("shareBtn");
+  var copyFeedback = document.getElementById("copyFeedback");
+
+  var lastResultText = "";
+
+  function showError(show){
+    errorMsg.classList.toggle("visible", show);
+  }
+
+  function calculate(){
+    var rawYou = yourNameInput.value || "";
+    var rawCrush = crushNameInput.value || "";
+    var cleanYou = normalizeName(rawYou);
+    var cleanCrush = normalizeName(rawCrush);
+
+    if (!cleanYou || !cleanCrush){
+      showError(true);
+      resultBox.classList.remove("visible");
+      return;
+    }
+    showError(false);
+
+    var score = crushScore(cleanYou, cleanCrush);
+    var cat = categoryFor(score);
+
+    resultPercent.textContent = score + "%";
+    resultCategory.textContent = cat.label;
+    resultExplain.textContent = "Your " + score + "% result means the names \"" + rawYou.trim() + "\" and \"" + rawCrush.trim() + "\" produced a " + cat.label.toLowerCase() + " on this calculator's formula. " + cat.text + " It does not tell you whether your crush actually likes you.";
+
+    lastResultText = "Crush Calculator result: " + rawYou.trim() + " + " + rawCrush.trim() + " = " + score + "% (" + cat.label + "). This is a fun, name-based result, not a measure of real feelings.";
+
+    resultBox.classList.add("visible");
+    copyFeedback.textContent = "";
+    resultBox.setAttribute("tabindex", "-1");
+    resultBox.focus({ preventScroll: false });
+  }
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    calculate();
+  });
+
+  resetBtn.addEventListener("click", function(){
+    form.reset();
+    showError(false);
+    resultBox.classList.remove("visible");
+    copyFeedback.textContent = "";
+    yourNameInput.focus();
+  });
+
+  tryAgainBtn.addEventListener("click", function(){
+    form.reset();
+    showError(false);
+    resultBox.classList.remove("visible");
+    copyFeedback.textContent = "";
+    yourNameInput.focus();
+  });
+
+  copyBtn.addEventListener("click", function(){
+    if (!lastResultText) return;
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(lastResultText).then(function(){
+        copyFeedback.textContent = "Copied!";
+      }, function(){
+        copyFeedback.textContent = "Couldn't copy — please copy manually.";
+      });
+    } else {
+      copyFeedback.textContent = "Copying isn't supported in this browser.";
+    }
+  });
+
+  shareBtn.addEventListener("click", function(){
+    if (!lastResultText) return;
+    if (navigator.share){
+      navigator.share({ text: lastResultText }).catch(function(){ /* user cancelled or unsupported */ });
+    } else if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(lastResultText).then(function(){
+        copyFeedback.textContent = "Sharing isn't available — result copied instead.";
+      });
+    } else {
+      copyFeedback.textContent = "Sharing isn't supported in this browser.";
+    }
+  });
+
+})();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Crush Calculator",
+  "url": "{{GITHUB_TOOL_URL}}",
+  "applicationCategory": "LifestyleApplication",
+  "operatingSystem": "Any",
+  "description": "A free, browser-based crush calculator that turns two names into a fun crush compatibility percentage. Entertainment only — not a scientific measure of attraction or compatibility.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a crush calculator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It's a free, name-based tool that turns two names into a fun compatibility percentage using a fixed formula. It's meant for entertainment, not as a real measure of feelings."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does a crush calculator by name work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It cleans up both names, combines them, and runs the result through a formula that always produces the same percentage for the same pair of names, regardless of which name you enter first."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is a crush calculator accurate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It's accurate in the sense that it's consistent — the same names always give the same result. It isn't accurate as a measure of real compatibility or attraction."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can a crush calculator tell if my crush likes me?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It only reads two names, not behavior. A behavior-based tool is a better fit for that question."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does a 100% love calculator result mean?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It means your names hit the maximum score this formula can produce. It doesn't confirm true love, a soulmate, or a guaranteed relationship."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a secret crush calculator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It's the same type of name-based tool as a crush calculator; secret refers to not having told the other person about your feelings yet."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is a love calculator by name real?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It's a real, working formula that produces consistent results, but it's a novelty calculation rather than a scientifically validated measure of love."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use a crush calculator with two names?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — enter your name and your crush's name, and the calculator will produce a result from that pair."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between a crush calculator and a love calculator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "They typically use the same name-based mechanic. Crush calculator usually refers to one person you haven't told about your feelings; love calculator is used more broadly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can a love calculator predict a relationship?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Real relationships depend on communication, effort, and circumstances that a name can't capture."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can a crush calculator tell who your soulmate is?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It has no way to identify a soulmate — it returns a percentage based on the two names entered, for fun."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I calculate love compatibility by date of birth?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not with this tool — it only uses names. A date-of-birth calculator would use a different method and would need to be a separate tool."
+      }
+    }
+  ]
+}
+</script>
+
+</body>
+</html>
